@@ -136,12 +136,12 @@ func (c *CLI) MatchMirror(ctx context.Context, in *MatchRequest) (*MatchReply, e
 	return reply, nil
 }
 
-// matchMirrorsByPattern returns the mirrors whose name contains pattern
-// (case-insensitive). If exactly one mirror name matches pattern exactly
-// (case-insensitive), only that mirror is returned, even if other mirror
-// names also contain pattern as a substring. This allows a mirror whose
-// name is a substring of other mirror names (e.g. "fcix.net" vs.
-// "mirror.fcix.net") to still be matched unambiguously.
+// matchMirrorsByPattern returns a list of mirrors:
+// - if the pattern matches a mirror's name exactly, only that mirror is returned
+// - otherwise, all mirrors containing the pattern as a substring are returned
+// - all matches are case-insensitive
+// This allows a mirror whose name is a substring of other mirror names
+// (e.g. "fcix.net" vs. "mirror.fcix.net") to still be matched unambiguously.
 func matchMirrorsByPattern(mirrors map[int]string, pattern string) []*MirrorID {
 	lowerPattern := strings.ToLower(pattern)
 
